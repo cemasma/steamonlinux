@@ -33,4 +33,14 @@ function get_linux_games(games) {
 	return linux_supported_games;
 }
 
-console.log(query("nazgrolvi"));
+function button_click() {
+	context = query(document.getElementById("userid").value);
+	gamesDiv = document.getElementById("games");
+	gamesDiv.innerHTML = "";
+	for(var i = 0; i < context.linux_supported_games.length; i++) {
+		if(context.linux_supported_games[i].img_logo_url) {
+			gamesDiv.innerHTML += "<img src='http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/"+
+				context.linux_supported_games[i].appid+"/"+context.linux_supported_games[i].img_logo_url+".jpg'/>";
+		}
+	}
+}
