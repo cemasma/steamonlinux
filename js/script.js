@@ -12,7 +12,9 @@ function get_user_games(steamid) {
 }
 
 function get_steamid(userid) {
-	
+	http.open("GET", "http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001?key="+key+"&vanityurl="+userid);
+	http.send();
+	console.log(http.responseText);
 }
 
 get_steamid("nazgrolvi");
