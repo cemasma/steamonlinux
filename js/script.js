@@ -15,6 +15,7 @@ function handler(e) {
 			this.games = JSON.parse(req.responseText).response.games;
 			linuxGamesRequest();
 		} else {
+			closeLoader();
 			scrapGames(this.games, JSON.parse(req.responseText));
 		}
 	}
@@ -47,13 +48,28 @@ function scrapGames(games, linux_games) {
 }
 
 function buttonClick() {
-	gamesDiv = document.getElementById("games").innerHTML = "";
-	gamesDiv.innerHTML = "";
-	query(document.getElementById("userid").value);
+	if(document.getElementById("userid").value.length > 0) {
+		gamesDiv = document.getElementById("games").innerHTML = "";
+		gamesDiv.innerHTML = "";
+		openLoader();
+		query(document.getElementById("userid").value);
+	} else {
+		alert("Enter Your CommuntyID");
+	}
 }
 
 function addToDiv(div, appid, img_logo_url) {
 	if(img_logo_url) {
 		div.innerHTML += "<img src='http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/"+appid+"/"+img_logo_url+".jpg'/>";
 	}
+}
+
+function openLoader() {
+	document.getElementById("overlay").style.display = "block";
+	document.getElementById("loader").style.display = "block";
+}
+
+function closeLoader() {
+	document.getElementById("overlay").style.display = "none";
+	document.getElementById("loader").style.display = "none";
 }
