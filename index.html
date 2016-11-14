@@ -1,13 +1,33 @@
 <html>
 <head>
 	<script src="js/script.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
 
 <body>
-<input id="userid" type="text">
-<input type="submit" onclick="buttonClick()">
-<div id="games">
-	
+
+<style type="text/css">
+	input, div, button {
+		display: block;
+		margin-top: 2%;
+		text-align: center;
+	}
+
+	button {
+		width: 50%;
+		height: 5%;
+		background-color: #E6E6E6;
+		font-size: 100%;
+		font-style: bold;
+		border: none;
+	}
+</style>
+
+<center>
+	<input id="userid" type="text" placeholder="Enter Your CommunityID">
+	<button onclick="buttonClick()">SUBMIT</button>
+	<div id="games">
+</center>
 </div>
 </body>
 </html
