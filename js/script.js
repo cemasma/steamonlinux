@@ -4,7 +4,13 @@ var coURL = "https://crossorigin.me/";
 
 function query(userid) {
 	req.onreadystatechange = handler;
-	startFlowWithSteamId(userid);
+	if(userid.startsWith("http://steamcommunity.com/profiles") || userid.startsWith("https://steamcommunity.com/profiles")) {
+		userGamesRequest(userid.split("/")[4]);
+	} else if(userid.startsWith("http://steamcommunity.com/id") || userid.startsWith("https://steamcommunity.com/id")) {
+		startFlowWithSteamId(userid.split("/")[4]);
+	} else {
+		startFlowWithSteamId(userid);
+	}
 }
 
 function handler(e) {
