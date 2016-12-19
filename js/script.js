@@ -1,55 +1,37 @@
 var key = "62CBEFE74FE6CFD96089DADE782FB7B8";
 var req = new XMLHttpRequest();
-var coURL = "https://crossorigin.me/";
 
 function query(userid) {
 	req.onreadystatechange = handler;
 	if(userid.startsWith("http://steamcommunity.com/profiles") || userid.startsWith("https://steamcommunity.com/profiles")) {
-		userGamesRequest(userid.split("/")[4]);
+		linuxGamesRequest(userid.split("/")[4], true);
 	} else if(userid.startsWith("http://steamcommunity.com/id") || userid.startsWith("https://steamcommunity.com/id")) {
-		startFlowWithSteamId(userid.split("/")[4]);
+		linuxGamesRequest(userid.split("/")[4], false);
 	} else {
-		startFlowWithSteamId(userid);
+		linuxGamesRequest(userid, false);
 	}
 }
 
 function handler(e) {
 	if(req.readyState === 4 && req.status === 200) {
-		if(e.currentTarget.responseURL.indexOf("ISteamUser") > -1) {
-			userGamesRequest(JSON.parse(req.responseText).response.steamid);
-		} else if(e.currentTarget.responseURL.indexOf("IPlayerService") > -1) {
-			this.games = JSON.parse(req.responseText).response.games;
-			linuxGamesRequest();
-		} else {
-			closeLoader();
-			scrapGames(this.games, JSON.parse(req.responseText));
-		}
+		closeLoader();
+		showGames(JSON.parse(req.responseText));
 	}
 }
 
-function startFlowWithSteamId(userid) {
-	req.open("GET", coURL + "https://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001?key="+key+"&vanityurl="+userid, true);
+function linuxGamesRequest(userid, isItAlreadyFound) {
+	if(isItAlreadyFound) {
+		req.open("GET", "https://steamonlinux.herokuapp.com/?id=" + userid + "?alreadyfounded=" + true, true);
+	} else {
+		req.open("GET", "https://steamonlinux.herokuapp.com/?id=" + userid, true);
+	}
 	req.send();
+		
 }
 
-function userGamesRequest(steamid) {
-	req.open("GET", coURL + "https://api.steampowered.com/IPlayerService/GetOwnedGames/v1?key="+
-			key+"&steamid="+steamid+"&include_appinfo=1&include_played_free_games=1", true);
-	req.send();
-}
-
-function linuxGamesRequest() {
-	req.open("GET", coURL + "https://raw.githubusercontent.com/SteamDatabase/SteamLinux/master/GAMES.json", true);
-	req.send();	
-}
-
-function scrapGames(games, linux_games) {
-	var linuxSupportedGames = [];
+function showGames(games) {
 	for(var i = 0; i < games.length; i++) {
-		if(linux_games.hasOwnProperty(games[i].appid)) {
-			linuxSupportedGames.push(games[i]);
-			addToDiv(document.getElementById("games"), games[i].appid, games[i].img_logo_url);
-		}
+		addToDiv(document.getElementById("games"), games[i].appid, games[i].img_logo_url);
 	}
 }
 
