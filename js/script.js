@@ -21,7 +21,7 @@ function handler(e) {
 
 function linuxGamesRequest(userid, isItAlreadyFound) {
 	if(isItAlreadyFound) {
-		req.open("GET", "https://steamonlinux.herokuapp.com/?id=" + userid + "?alreadyfounded=" + true, true);
+		req.open("GET", "https://steamonlinux.herokuapp.com/?id=" + userid + "&alreadyfounded=" + true, true);
 	} else {
 		req.open("GET", "https://steamonlinux.herokuapp.com/?id=" + userid, true);
 	}
