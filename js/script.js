@@ -1,4 +1,3 @@
-var key = "62CBEFE74FE6CFD96089DADE782FB7B8";
 var req = new XMLHttpRequest();
 
 function query(userid) {
